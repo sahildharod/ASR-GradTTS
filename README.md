@@ -7,3 +7,4 @@ In this hack role, we made the following changes:
 
 2) The authors did not try any other variance schedule apart from linear
    We have implemented cosine noise scheduling for the diffusion process which given by :
+   $min (x,y)$ 
