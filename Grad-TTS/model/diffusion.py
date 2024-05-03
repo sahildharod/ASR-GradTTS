@@ -80,6 +80,8 @@ class Rezero(BaseModule):
         return self.fn(x) * self.g
 
 
+
+## Changed to separable conv layers
 class Block(BaseModule):
     def __init__(self, dim, dim_out, groups=8):
         super().__init__()
