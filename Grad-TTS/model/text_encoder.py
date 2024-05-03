@@ -81,16 +81,18 @@ class DurationPredictor(BaseModule):
         self.proj = torch.nn.Conv1d(filter_channels, 1, 1)
 
     def forward(self, x, x_mask):
-        x = self.conv_1(x * x_mask)
-        x = torch.relu(x)
-        x = self.norm_1(x)
-        x = self.drop(x)
-        x = self.conv_2(x * x_mask)
-        x = torch.relu(x)
-        x = self.norm_2(x)
-        x = self.drop(x)
-        x = self.proj(x * x_mask)
-        return x * x_mask
+        
+        x1 = self.conv_1(x * x_mask)
+        x1 = torch.elu(x)
+        x1 = self.norm_1(x)
+        x1 = self.drop(x)
+        x1 = self.conv_2(x * x_mask)
+        x1 = x1 + (x * x_mask)
+        x1 = torch.relu(x)
+        x1 = self.norm_2(x)
+        x1 = self.drop(x)
+        x1 = self.proj(x * x_mask)
+        return x1 * x_mask
 
 
 class MultiHeadAttention(BaseModule):

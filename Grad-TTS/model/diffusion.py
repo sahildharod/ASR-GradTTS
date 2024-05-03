@@ -11,6 +11,40 @@ import torch
 from einops import rearrange
 
 from model.base import BaseModule
+from torch import nn
+class SeparableConv2d(BaseModule):
+
+    def __init__(self,
+                 in_channels,
+                 out_channels,
+                 kernel_size=1,
+                 stride=1,
+                 padding=0,
+                 dilation=1,
+                 bias=True):
+        super(SeparableConv2d, self).__init__()
+
+        self.conv1 = nn.Conv2d(in_channels,
+                               in_channels,
+                               kernel_size,
+                               stride,
+                               padding,
+                               dilation,
+                               groups=in_channels,
+                               bias=bias)
+        self.pointwise = nn.Conv2d(in_channels,
+                                   out_channels,
+                                   1,
+                                   1,
+                                   0,
+                                   1,
+                                   1,
+                                   bias=bias)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.pointwise(x)
+        return x
 
 
 class Mish(BaseModule):
@@ -48,14 +82,15 @@ class Rezero(BaseModule):
 
 class Block(BaseModule):
     def __init__(self, dim, dim_out, groups=8):
-        super(Block, self).__init__()
-        self.block = torch.nn.Sequential(torch.nn.Conv2d(dim, dim_out, 3, 
-                                         padding=1), torch.nn.GroupNorm(
-                                         groups, dim_out), Mish())
+        super().__init__()
+        self.block = torch.nn.Sequential(
+            SeparableConv2d(dim, dim_out, 3, padding=1),
+            nn.GroupNorm(groups, dim_out), Mish())
 
     def forward(self, x, mask):
         output = self.block(x * mask)
         return output * mask
+
 
 
 class ResnetBlock(BaseModule):
@@ -217,10 +252,11 @@ class GradLogPEstimator2d(BaseModule):
 
 
 def get_noise(t, beta_init, beta_term, cumulative=False):
+    beta_min = torch.normal(mean = 0.0, std = beta_init*t, size = beta_init.shape)
     if cumulative:
         noise = beta_init*t + 0.5*(beta_term - beta_init)*(t**2)
     else:
-        noise = beta_init + (beta_term - beta_init)*t
+        noise = beta_init + (beta_term - beta_init)*t + beta_min
     return noise
 
 
