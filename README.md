@@ -8,7 +8,8 @@ In this hacker role, we made the following changes to the original implementatio
 1) Drawing inspiration from lightweight models, we replaced the regular convolutions in the ResNet block of the decoder which has a UNet architecture with depthwise separable convolutions to reduce parameters and computation
 2) One of the limitations/future work proposed by the authors was to try any other variance schedule apart from 'linear'
    We have implemented cosine noise scheduling for the diffusion process which is given by :
-   $min (1 - \frac{\alpha_t}{\alpha_{t-1}},y)$
+   
+   $min (1 - \frac{\alpha_t}{\alpha_{t-1}},0.999), \alpha_t = \frac{f(t)}{f(0)}$ where $f(t) = cos^2(\frac{i + 0.008}{1 + 0.008}*\frac{\pi}{2})$
 
 ### Installation
 Firstly install the Python package requirements according to the original implementation
