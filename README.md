@@ -26,9 +26,10 @@ Secondly, build `monotonic_align` code (Cython):
 ```bash
 cd model/monotonic_align; python setup.py build_ext --inplace; cd ../..
 ```
-Download and extract the LJSpeech dataset using the following command
+Download and extract the LJSpeech dataset using the following commands
 ```
 wget https://data.keithito.com/data/speech/LJSpeech-1.1.tar.bz2
+tar -xvf LJSpeech-1.1.tar.bz2
 ```
 Due to incompatibility of Cuda(12.2) and pytorch(1.9.0) versions, we could not train using the command given by the authors on GPU, use the following command to perform training on cpu
 ```bash
