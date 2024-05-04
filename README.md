@@ -15,3 +15,19 @@ Firstly install the Python package requirements acc to the original implementati
 ```bash
 pip install -r requirements.txt
 ```
+To resolve other version related errors, install the following packages:
+```bash
+pip install torchaudio==0.9.0
+pip install setuptools==59.5.0
+pip install numba
+```
+Secondly, build `monotonic_align` code (Cython):
+
+```bash
+cd model/monotonic_align; python setup.py build_ext --inplace; cd ../..
+```
+Download and extract the LJSpeech dataset using the following command
+```
+wget https://data.keithito.com/data/speech/LJSpeech-1.1.tar.bz2
+```
+
