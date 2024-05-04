@@ -7,8 +7,8 @@ The paper GRAD-TTS presented the first acoustic feature generator utilizing the 
 In this hacker role, we made the following changes to the original implementation:
 1) Drawing inspiration from lightweight models, we replaced the regular convolutions in the ResNet block of the decoder which has a UNet architecture with depthwise separable convolutions to reduce parameters and computation
 2) One of the limitations/future work proposed by the authors was to try any other variance schedule apart from 'linear'
-   We have implemented cosine noise scheduling for the diffusion process which given by :
-   $min (x,y)$
+   We have implemented cosine noise scheduling for the diffusion process which is given by :
+   $min (1 - \frac{\alpha_t}{\alpha_{t-1}},y)$
 
 ### Installation
 Firstly install the Python package requirements according to the original implementation
