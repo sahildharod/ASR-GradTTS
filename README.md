@@ -11,7 +11,7 @@ In this hack role, we made the following changes:
    $min (x,y)$
 
 ### Installation
-Firstly install the Python package requirements acc to the original implementation
+Firstly install the Python package requirements according to the original implementation
 ```bash
 pip install -r requirements.txt
 ```
