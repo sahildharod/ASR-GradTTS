@@ -8,4 +8,10 @@ In this hack role, we made the following changes:
 
 2) The authors did not try any other variance schedule apart from linear
    We have implemented cosine noise scheduling for the diffusion process which given by :
-   $min (x,y)$ 
+   $min (x,y)$
+
+### Installation
+Firstly install the Python package requirements acc to the original implementation
+```bash
+pip install -r requirements.txt
+```
